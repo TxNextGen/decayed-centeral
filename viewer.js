@@ -16,15 +16,36 @@ const scramjet = new ScramjetController({
   }
 });
 
-await scramjet.init();
-navigator.serviceWorker.register("/sw.js");
-const connection = new BareMux.BareMuxConnection("/bareworker.js");
-await connection.setTransport("https://cdn.jsdelivr.net/npm/@mercuryworkshop/epoxy-transport/dist/index.mjs", [{ wisp: "wss://gointospace.app/wisp/" }]);
+try {
+  await scramjet.init();
+  await navigator.serviceWorker.register("/tinyjet/sw.js");
+} catch (e) {
+  console.error("Scramjet failed to initialize:", e);
+}
 
-function normalize(val) {
-  try { return new URL(val).toString(); } catch { }
-  try { let url = new URL("https://" + val); if (url.hostname.includes(".")) return url.toString(); } catch { }
-  return `https://search.brave.com/search?q=${encodeURIComponent(val)}`;
+const connection = new BareMux.BareMuxConnection("/bareworker.js");
+
+async function setTransport() {
+  const wisp = "wss://gointospace.app/wisp/";
+  await connection.setTransport(
+    "https://cdn.jsdelivr.net/npm/@mercuryworkshop/epoxy-transport/dist/index.mjs",
+    [{ wisp }]
+  );
+}
+
+await setTransport();
+
+function normalize(inputValue) {
+  try {
+    return new URL(inputValue).toString();
+  } catch {}
+
+  try {
+    const url = new URL(`http://${inputValue}`);
+    if (url.hostname.includes(".")) return url.toString();
+  } catch {}
+
+  return `https://search.brave.com/search?q=${encodeURIComponent(inputValue)}`;
 }
 
 function navigate(url) {
@@ -33,23 +54,37 @@ function navigate(url) {
   input.value = fixed;
 }
 
-input.addEventListener("keydown", e => {
-  if (e.key === "Enter") navigate(input.value);
+input.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    navigate(input.value);
+  }
 });
 
-redo.onclick = () => { frame.src = frame.src; };
-openBtn.onclick = () => {
-  // Attempt to decode current URL to open in new tab
+redo.onclick = () => {
+  frame.src = frame.src;
+};
+
+back.onclick = () => {
   try {
-    const raw = frame.src.split('/').pop();
-    window.open(scramjet.decodeUrl(raw), "_blank");
-  } catch(e) {
+    frame.contentWindow.history.back();
+  } catch {}
+};
+
+next.onclick = () => {
+  try {
+    frame.contentWindow.history.forward();
+  } catch {}
+};
+
+openBtn.onclick = () => {
+  try {
+    const encoded = frame.src.split("/").pop();
+    const decoded = scramjet.decodeUrl(encoded);
+    window.open(decoded, "_blank");
+  } catch {
     window.open(input.value, "_blank");
   }
 };
 
-back.onclick = () => frame.contentWindow.history.back();
-next.onclick = () => frame.contentWindow.history.forward();
-
-// Initial load
 navigate("https://google.com");
