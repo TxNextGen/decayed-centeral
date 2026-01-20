@@ -73,6 +73,7 @@ html, body {
 .side-item:hover {
   color: #fff;
   background: var(--accent);
+  border-radius: 15px;
 }
 
 .side-link {
