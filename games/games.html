@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>IXL | Math, Language Arts, Science, Social Studies, and Spanish</title>
+<link rel="stylesheet" href="games.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<script>
+if (typeof window.crypto === 'undefined') {
+  window.crypto = {};
+}
+if (!window.crypto.randomUUID) {
+  window.crypto.randomUUID = function() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      var r = Math.random() * 16 | 0;
+      var v = c === 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+  };
+}
+if (typeof crypto !== 'undefined' && !crypto.randomUUID) {
+  crypto.randomUUID = window.crypto.randomUUID;
+}
+</script>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="sidebar-top">
+      <div class="brand"><i class="fa-solid fa-bolt"></i></div>
+      <button class="side-item" id="btn-home"><i class="fa-solid fa-house"></i></button>
+      <button class="side-item active" id="btn-games"><i class="fa-solid fa-gamepad"></i></button>
+      <button class="side-item"><i class="fa-brands fa-app-store-ios"></i></button>
+      <button class="side-item"><i class="fa-solid fa-robot"></i></button>
+      <button class="side-item"><i class="fa-solid fa-compass"></i></button>
+    </div>
+    <div class="sidebar-bottom">
+      <a href="https://discord.gg/R8PhHHQmnc" target="_blank" class="side-link">
+        <button class="side-item"><i class="fa-brands fa-discord"></i></button>
+      </a>
+      <button class="side-item"><i class="fa-solid fa-gear"></i></button>
+    </div>
+  </aside>
+
+  <div class="content-wrapper">
+    <header>
+      <div class="top">
+        <div class="navs">
+          <button id="random-game" style="width: auto; padding: 0 15px; font-size: 12px; font-weight: bold;">Random Game</button>
+        </div>
+        <div class="bar">
+          <input id="game-search" type="text" placeholder="Browse over 500+ Games :D" autocomplete="off" />
+        </div>
+        <div class="navs">
+           <button id="filter-category" style="width: auto; padding: 0 15px; font-size: 12px;">Filter <i class="fa-solid fa-chevron-down" style="margin-left:5px"></i></button>
+        </div>
+      </div>
+    </header>
+    <main id="main-content">
+      <div id="games-grid" class="games-grid"></div>
+      
+      <div id="game-player" style="display: none; height: 100%; width: 100%; position: relative;">
+          <div style="position: absolute; top: 10px; right: 10px; z-index: 10; display: flex; gap: 8px;">
+              <button id="close-game" class="game-control-btn"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+          <iframe id="frame" sandbox="allow-scripts allow-forms allow-popups allow-modals"></iframe>
+      </div>
+    </main>
+  </div>
+
+  <script src="games.js"></script>
+</body>
+</html>

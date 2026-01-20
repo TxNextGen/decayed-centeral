@@ -1,0 +1,348 @@
+:root {
+  --bg: #0f0f0f;
+  --panel: #1a1a1a;
+  --border: #2a2a2a;
+  --text: #ffffff;
+  --muted: #717171;
+  --accent: #333333;
+  --pill-radius: 20px;
+  --sidebar-width: 70px;
+}
+
+* {
+  box-sizing: border-box;
+  transition: all 0.15s ease-out;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+  color: var(--text);
+  display: flex;
+}
+
+.sidebar {
+  width: var(--sidebar-width);
+  min-width: var(--sidebar-width);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 12px 0;
+  align-items: center;
+  background: #111;
+  border-right: 1px solid var(--border);
+}
+
+.sidebar-top, .sidebar-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  width: 100%;
+}
+
+.brand {
+  font-size: 22px;
+  color: #fff;
+  padding: 12px 0;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.side-item {
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  font-size: 18px;
+  cursor: pointer;
+  padding: 0;
+  border-radius: var(--pill-radius);
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.side-item:hover, .side-item.active {
+  color: #fff;
+  background: var(--accent);
+}
+
+.side-link {
+  text-decoration: none;
+  outline: none;
+  display: block;
+}
+
+.content-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-width: 0;
+}
+
+header {
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+}
+
+.navs {
+  display: flex;
+  background: rgba(17, 17, 17, 0.8);
+  border: 1px solid rgba(42, 42, 42, 0.6);
+  border-radius: var(--pill-radius);
+  padding: 6px;
+  gap: 6px;
+  flex-shrink: 0;
+  backdrop-filter: blur(10px);
+}
+
+.bar {
+  flex: 1;
+  display: flex;
+  background: rgba(17, 17, 17, 0.8);
+  border: 1px solid rgba(42, 42, 42, 0.6);
+  border-radius: var(--pill-radius);
+  padding: 0 20px;
+  height: 44px;
+  align-items: center;
+  min-width: 0;
+  backdrop-filter: blur(10px);
+}
+
+.bar input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--text);
+  outline: none;
+  font-size: 15px;
+  width: 100%;
+  font-weight: 500;
+}
+
+main {
+  flex: 1;
+  background: rgba(0, 0, 0, 0.4);
+  margin: 20px;
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 17px;
+  padding: 24px;
+  height: 100%;
+  overflow-y: auto;
+  background: transparent;
+}
+
+.games-grid::-webkit-scrollbar {
+  width: 8px;
+}
+
+.games-grid::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.games-grid::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}
+
+.games-grid::-webkit-scrollbar-thumb:hover {
+  background: #444;
+}
+
+.game-card {
+  background: linear-gradient(135deg, rgba(26, 26, 26, 0.9) 0%, rgba(21, 21, 21, 0.9) 100%);
+  border: 1px solid rgba(34, 34, 34, 0.8);
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(10px);
+}
+
+.game-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(51, 51, 51, 0.3) 0%, transparent 50%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.game-card:hover::before {
+  opacity: 1;
+}
+
+.game-card:hover {
+  transform: translateY(-4px) scale(1.01);
+  border-color: rgba(58, 58, 58, 0.8);
+  box-shadow: 
+    0 8px 25px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+.game-card .image-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/10;
+  overflow: hidden;
+  background: linear-gradient(135deg, #222 0%, #1a1a1a 100%);
+}
+
+.game-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.game-card:hover img {
+  transform: scale(1.08);
+}
+
+.game-card .image-wrapper::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.game-card:hover .image-wrapper::after {
+  opacity: 1;
+}
+
+.game-card .play-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.8);
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.3);
+}
+
+.game-card .play-overlay i {
+  color: #000;
+  font-size: 16px;
+  margin-left: 2px;
+}
+
+.game-card:hover .play-overlay {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.game-card .title {
+  padding: 10px 12px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(15px);
+  position: relative;
+  letter-spacing: 0.3px;
+  transition: background 0.3s ease;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.game-card:hover .title {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.game-card.loading {
+  pointer-events: none;
+}
+
+.game-card.loading .image-wrapper {
+  background: linear-gradient(
+    90deg,
+    #1a1a1a 25%,
+    #222 50%,
+    #1a1a1a 75%
+  );
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+button {
+  background: transparent;
+  border: none;
+  color: var(--text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--pill-radius);
+  width: 34px;
+  height: 34px;
+}
+
+button:hover:not(:disabled) { 
+  background: var(--accent); 
+}

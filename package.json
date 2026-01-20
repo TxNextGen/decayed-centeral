@@ -1,0 +1,16 @@
+{
+  "name": "whisper-main",
+  "version": "1.0.0",
+  "description": "Loosely based off [https://github.com/alivehamster/scramjet-uv-example](https://github.com/alivehamster/scramjet-uv-example)",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
