@@ -1,16 +1,24 @@
 {
   "name": "whisper-main",
   "version": "1.0.0",
-  "description": "Loosely based off [https://github.com/alivehamster/scramjet-uv-example](https://github.com/alivehamster/scramjet-uv-example)",
-  "main": "main.js",
+  "description": "Loosely based off Scramjet proxy",
+  "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "dependencies": {
-    "express": "^5.2.1"
+    "@mercuryworkshop/scramjet": "^1.0.2",
+    "@mercuryworkshop/epoxy-transport": "^2.1.0",
+    "@mercuryworkshop/libcurl-transport": "^1.5.0",
+    "@mercuryworkshop/bare-mux": "^2.0.4",
+    "@titaniumnetwork-dev/ultraviolet": "^3.2.0",
+    "express": "^5.2.1",
+    "node-fetch": "^3.3.2",
+    "wisp-server-node": "^1.1.2"
   }
 }
