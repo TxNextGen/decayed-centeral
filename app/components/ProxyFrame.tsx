@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import { ExternalLink } from 'lucide-react'
 
 interface ProxyFrameProps {
   url: string
@@ -8,8 +9,9 @@ interface ProxyFrameProps {
 }
 
 export default function ProxyFrame({ url, onUrlChange }: ProxyFrameProps) {
-  const iframeRef = useRef<HTMLIFrameElement>(null)
+  const mathRef = useRef<HTMLIFrameElement>(null)
   const [scramjetLoaded, setScramjetLoaded] = useState(false)
+  const [proxiedUrl, setProxiedUrl] = useState<string>('')
 
   useEffect(() => {
     const script = document.createElement('script')
@@ -28,7 +30,7 @@ export default function ProxyFrame({ url, onUrlChange }: ProxyFrameProps) {
   }, [])
 
   useEffect(() => {
-    if (url && iframeRef.current && scramjetLoaded) {
+    if (url && mathRef.current && scramjetLoaded) {
       const loadProxy = async () => {
         try {
           function search(input: string) {
@@ -62,9 +64,10 @@ export default function ProxyFrame({ url, onUrlChange }: ProxyFrameProps) {
             
             const src = scramjet.encodeUrl(fixedUrl)
             console.log('Scramjet encoded URL:', src)
+            setProxiedUrl(src)
             
-            if (iframeRef.current) {
-              iframeRef.current.src = src
+            if (mathRef.current) {
+              mathRef.current.src = src
             }
           }
         } catch (error) {
@@ -76,12 +79,27 @@ export default function ProxyFrame({ url, onUrlChange }: ProxyFrameProps) {
     }
   }, [url, scramjetLoaded])
 
+  const openInNewTab = () => {
+    if (proxiedUrl) {
+      window.open(proxiedUrl, '_blank')
+    }
+  }
+
   return (
-    <iframe
-      ref={iframeRef}
-      className="w-full h-full border-0"
-      sandbox="allow-scripts allow-forms allow-popups allow-modals allow-top-navigation allow-same-origin"
-      title="Proxy Frame"
-    />
+    <div className="relative w-full h-full">
+      <button
+        onClick={openInNewTab}
+        className="absolute top-4 right-4 z-10 bg-gray-800 hover:bg-gray-700 text-white p-2 rounded-lg shadow-lg transition-colors"
+        title="Open in new tab"
+      >
+        <ExternalLink size={16} />
+      </button>
+      <iframe
+        ref={mathRef}
+        className="w-full h-full border-0"
+        sandbox="allow-scripts allow-forms allow-popups allow-modals allow-top-navigation allow-same-origin"
+        title="Proxy Frame"
+      />
+    </div>
   )
 }

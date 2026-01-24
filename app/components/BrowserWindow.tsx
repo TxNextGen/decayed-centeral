@@ -19,21 +19,18 @@ export default function BrowserWindow() {
   const formatTime = (date: Date) => {
     const hours = date.getHours()
     const minutes = date.getMinutes()
-    const period = hours >= 12 ? 'PM' : 'AM'
     const displayHours = hours % 12 || 12
     const displayMinutes = minutes.toString().padStart(2, '0')
-    return { hours: displayHours, minutes: displayMinutes, period }
+    return { hours: displayHours, minutes: displayMinutes }
   }
 
-  const { hours, minutes, period } = formatTime(time)
+  const { hours, minutes } = formatTime(time)
 
   const handleUrlSubmit = (url: string) => {
-    // Convert search terms to URL if needed
     let processedUrl = url
     try {
       new URL(url)
     } catch {
-      // If not a valid URL, treat as search
       processedUrl = `https://search.brave.com/search?q=${encodeURIComponent(url)}`
     }
     setCurrentUrl(processedUrl)
@@ -49,11 +46,8 @@ export default function BrowserWindow() {
         ) : (
           <div className="w-full h-full flex items-center justify-center">
             <div className="text-center">
-              <div className="text-8xl font-bold text-[#92a4bf] mb-4 tracking-tight">
+              <div className="text-8xl font-bold text-[#92a4bf] tracking-tight">
                 {hours}:{minutes}
-              </div>
-              <div className="text-3xl text-[#6f7b8c] font-light">
-                {period}
               </div>
             </div>
           </div>

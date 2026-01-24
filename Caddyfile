@@ -1,0 +1,74 @@
+{
+	admin off
+	auto_https off
+	servers {
+		listen :80
+		listen :443
+	}
+}
+
+:80 {
+	root * /usr/share/caddy/public
+	try_files {path} {path}.html {path}/index.html /index.html
+
+	handle /api/* {
+		reverse_proxy localhost:3000
+	}
+
+	handle /* {
+		reverse_proxy localhost:3000
+	}
+
+	header {
+		Access-Control-Allow-Origin "*"
+		Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+		Access-Control-Allow-Headers "Content-Type, Authorization"
+		Access-Control-Allow-Credentials "true"
+	}
+
+	handle /sw.js {
+		header {
+			Content-Type "application/javascript"
+			Cache-Control "no-cache, no-store, must-revalidate"
+		}
+		reverse_proxy localhost:3000
+	}
+
+	handle /tinyjet/* {
+		reverse_proxy localhost:3000
+	}
+
+	handle /bareworker.js {
+		header {
+			Content-Type "application/javascript"
+			Service-Worker-Allowed "/"
+		}
+		reverse_proxy localhost:3000
+	}
+
+	handle /scramjet/* {
+		reverse_proxy localhost:3000
+	}
+
+	header {
+		X-Frame-Options "ALLOW-FROM *"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		Permissions-Policy "geolocation=(), microphone=(), camera=()"
+	}
+}
+
+education.opensourcedtech.com {
+     root * /usr/share/caddy/public
+     try_files {path} {path}.html {path}/index.html /index.html
+     
+     handle /api/* {
+         reverse_proxy localhost:3000
+     }
+     
+     handle /* {
+         reverse_proxy localhost:3000
+     }
+     
+     tls your@email.com
+ }
